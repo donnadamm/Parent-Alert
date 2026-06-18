@@ -1,0 +1,1948 @@
+<!doctype html>
+<html lang="id" class="h-full scroll-smooth overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent Alert - Portal Monitoring Premium</title>
+
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="/_sdk/data_sdk.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body
+    class="antialiased text-slate-800 dark:text-indigo-100 transition-colors duration-300 overflow-y-auto overflow-x-hidden"
+  >
+    <div
+      id="app"
+      class="min-h-screen w-full bg-slate-50 dark:bg-[#060415] flex flex-col relative transition-colors duration-300 overflow-x-hidden"
+    >
+      <!-- Background Orbs -->
+      <div
+        class="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-purple-500/10 dark:bg-purple-600/5 blur-[140px] rounded-full pointer-events-none z-0"
+      ></div>
+      <div
+        class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-pink-500/10 dark:bg-pink-500/5 blur-[140px] rounded-full pointer-events-none z-0"
+      ></div>
+
+      <!-- ==================== LANDING PAGE VIEW ==================== -->
+      <div
+        id="landingPageView"
+        class="flex flex-col min-h-screen relative z-10 w-full"
+        style="display: flex"
+      >
+        <!-- HEADER -->
+        <header
+          class="w-full h-20 px-6 md:px-12 flex items-center justify-between bg-white/95 dark:bg-[#0f0a2a]/95 border-b border-slate-200/80 dark:border-indigo-950/50 backdrop-blur-md sticky top-0 z-40"
+        >
+          <div class="flex items-center gap-12 flex-1">
+            <div class="flex items-center gap-3 shrink-0">
+              <div
+                class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white shadow-lg"
+              >
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <span
+                class="font-extrabold text-base tracking-wider text-slate-900 dark:text-white"
+                id="landingNavTitle"
+                >PARENT ALERT</span
+              >
+            </div>
+
+            <nav
+              class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-indigo-200 ml-4"
+            >
+              <a
+                href="#home"
+                class="text-purple-600 dark:text-purple-400 font-bold border-b-2 border-purple-600 dark:border-purple-400 pb-1 transition-all duration-300"
+                id="navHome"
+              >
+                Home
+              </a>
+              <a
+                href="#features"
+                class="hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 pb-1 border-b-2 border-transparent hover:border-purple-600 dark:hover:border-purple-400"
+                id="navFeatures"
+              >
+                Features
+              </a>
+              <a
+                href="#about"
+                class="hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 pb-1 border-b-2 border-transparent hover:border-purple-600 dark:hover:border-purple-400"
+                id="navAbout"
+              >
+                About Us
+              </a>
+              <a
+                href="#contact"
+                class="hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 pb-1 border-b-2 border-transparent hover:border-purple-600 dark:hover:border-purple-400"
+                id="navContact"
+              >
+                Contact Us
+              </a>
+            </nav>
+          </div>
+
+          <div class="flex items-center gap-4 shrink-0">
+            <button
+              class="w-10 h-10 rounded-xl border border-slate-200 dark:border-indigo-950/60 flex items-center justify-center bg-white dark:bg-[#0d0b21] text-slate-600 dark:text-indigo-300 hover:bg-slate-100 dark:hover:bg-indigo-950/40 transition-colors"
+              onclick="toggleDarkMode()"
+              type="button"
+            >
+              <i data-lucide="moon" class="w-4 h-4" id="landingDarkIcon"></i>
+            </button>
+
+            <div class="btn-parent-container" onclick="openLoginPage()">
+              <button class="btn-parent btn-parent-sm" type="button">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                  />
+                </svg>
+                Masuk Portal
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- ==================== HOME SECTION ==================== -->
+        <section
+          id="home"
+          class="w-full min-h-screen flex items-center px-6 md:px-12 py-12 lg:py-0"
+        >
+          <div
+            class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+          >
+            <div class="lg:col-span-7 space-y-6">
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-300 text-xs font-bold tracking-wide"
+              >
+                <i data-lucide="activity" class="w-3.5 h-3.5 animate-pulse"></i>
+                <span>Sistem Monitoring Akademik & Kedisiplinan Real-Time</span>
+              </div>
+
+              <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]"
+              >
+                Selamat datang di <br />
+                <span
+                  class="bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                  >Parent Alert!</span
+                >
+              </h1>
+
+              <p
+                class="text-base md:text-lg text-slate-600 dark:text-indigo-200/80 max-w-xl leading-relaxed"
+              >
+                Platform modern terpercaya yang menjembatani komunikasi antara
+                pihak sekolah dan orang tua. Pantau nilai perkembangan, presensi
+                harian, hingga rekam kedisiplinan putra-putri Anda secara
+                transparan.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-5 h-5 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400"
+                  >
+                    <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
+                  </div>
+                  <span
+                    class="text-xs font-semibold text-slate-700 dark:text-indigo-200"
+                    >Notifikasi Insiden Instan</span
+                  >
+                </div>
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-5 h-5 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400"
+                  >
+                    <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
+                  </div>
+                  <span
+                    class="text-xs font-semibold text-slate-700 dark:text-indigo-200"
+                    >Rekap Nilai Transparan</span
+                  >
+                </div>
+              </div>
+
+              <div class="pt-4">
+                <div class="btn-parent-container" onclick="openLoginPage()">
+                  <button class="btn-parent btn-parent-lg" type="button">
+                    Mulai Monitoring Sekarang
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="lg:col-span-5 relative flex justify-center items-center overflow-hidden"
+            >
+              <div class="w-full space-y-6 max-w-sm py-4 [perspective:1000px]">
+                <div class="relative group card-interactive animate-float-1">
+                  <div
+                    class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl blur opacity-0 group-hover:opacity-40 transition duration-500 pointer-events-none"
+                  ></div>
+                  <div
+                    class="relative p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/40 bg-white/95 dark:bg-[#0f0d25]/95 backdrop-blur-md shadow-lg transition-all duration-500 ease-out transform group-hover:rotate-0 group-hover:-translate-y-2 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:[transform:rotateX(4deg)_rotateY(-4deg)] cursor-pointer"
+                  >
+                    <div class="flex items-center justify-between mb-3">
+                      <div class="flex items-center gap-3">
+                        <div
+                          class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400 transform group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300"
+                        >
+                          <i
+                            data-lucide="book-open"
+                            class="w-5 h-5 transition-transform duration-500 group-hover:rotate-12"
+                          ></i>
+                        </div>
+                        <div>
+                          <h4
+                            class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"
+                          >
+                            Evaluasi Nilai Baru
+                          </h4>
+                          <p
+                            class="text-[10px] text-slate-500 dark:text-indigo-300/60"
+                          >
+                            Baru saja diunggah
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        class="text-xs font-extrabold text-purple-600 dark:text-purple-300 bg-purple-500/10 px-2.5 py-1 rounded-lg border border-purple-500/20 group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-500 group-hover:text-white group-hover:border-transparent transition-all duration-300"
+                        >95 / A</span
+                      >
+                    </div>
+                    <p
+                      class="text-xs text-slate-600 dark:text-indigo-200/70 leading-normal"
+                    >
+                      Mata Pelajaran:
+                      <strong
+                        class="text-slate-800 dark:text-indigo-100 font-bold"
+                        >Rekayasa Perangkat Lunak</strong
+                      >
+                    </p>
+                  </div>
+                </div>
+
+                <div class="relative group card-interactive animate-float-2">
+                  <div
+                    class="absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-indigo-500 rounded-2xl blur opacity-0 group-hover:opacity-40 transition duration-500 pointer-events-none"
+                  ></div>
+                  <div
+                    class="relative p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800/40 bg-white/95 dark:bg-[#0f0d25]/95 backdrop-blur-md shadow-lg transition-all duration-500 ease-out transform group-hover:rotate-0 group-hover:-translate-y-2 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:[transform:rotateX(4deg)_rotateY(4deg)] cursor-pointer"
+                  >
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center text-sky-600 dark:text-sky-400 transform group-hover:scale-110 group-hover:bg-sky-500/20 transition-all duration-300"
+                      >
+                        <i
+                          data-lucide="user-check"
+                          class="w-5 h-5 transition-transform duration-500 group-hover:-translate-y-0.5"
+                        ></i>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex justify-between items-center">
+                          <span
+                            class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
+                            >Presensi Masuk</span
+                          >
+                          <span
+                            class="text-[10px] text-sky-600 dark:text-sky-300 font-semibold bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20 group-hover:bg-sky-500 group-hover:text-white transition-all duration-300"
+                            >Hadir</span
+                          >
+                        </div>
+                        <p
+                          class="text-[11px] text-slate-500 dark:text-indigo-200/60 mt-0.5"
+                        >
+                          Siswa memasuki gerbang sekolah jam 07:12 WIB.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="relative group card-interactive animate-float-3">
+                  <div
+                    class="absolute -inset-0.5 bg-gradient-to-r from-rose-500 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-40 transition duration-500 pointer-events-none"
+                  ></div>
+                  <div
+                    class="relative p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800/40 bg-white/95 dark:bg-[#0f0d25]/95 backdrop-blur-md shadow-lg transition-all duration-500 ease-out transform group-hover:rotate-0 group-hover:-translate-y-2 group-hover:scale-[1.03] group-hover:shadow-2xl group-hover:[transform:rotateX(-4deg)_rotateY(-4deg)] cursor-pointer"
+                  >
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-600 dark:text-rose-400 transform group-hover:scale-110 group-hover:bg-rose-500/20 transition-all duration-300"
+                      >
+                        <i
+                          data-lucide="alert-triangle"
+                          class="w-5 h-5 transition-transform duration-300 group-hover:animate-bounce"
+                        ></i>
+                      </div>
+                      <div class="flex-1">
+                        <div class="flex justify-between items-center">
+                          <span
+                            class="text-xs font-bold text-rose-600 dark:text-rose-400"
+                            >Log Kedisiplinan</span
+                          >
+                          <span class="text-[10px] text-slate-400 font-mono"
+                            >Hari ini</span
+                          >
+                        </div>
+                        <p
+                          class="text-[11px] text-slate-500 dark:text-indigo-200/60 mt-0.5"
+                        >
+                          Siswa terlambat menghadiri apel pagi.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== FEATURES SECTION ==================== -->
+        <section
+          id="features"
+          class="w-full py-24 px-6 md:px-12 relative overflow-hidden"
+          style="
+            background: linear-gradient(
+              180deg,
+              #0f0a2a 0%,
+              #1a1040 50%,
+              #0f0a2a 100%
+            );
+          "
+        >
+          <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-purple-400 mb-4"
+              >
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> FITUR
+                UNGGULAN
+              </div>
+              <h2
+                class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4"
+              >
+                Fitur Powerful untuk
+                <span
+                  class="bg-gradient-to-r from-purple-500 via-pink-500 to-amber-500 bg-clip-text text-transparent"
+                  >Memantau Siswa</span
+                >
+              </h2>
+              <p class="text-slate-400 text-base sm:text-lg">
+                Temukan bagaimana fitur-fitur canggih kami dapat membantu Anda
+                memantau perkembangan akademik dan kedisiplinan siswa secara
+                real-time.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <!-- Feature 1 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #667eea 0%,
+                      #764ba2 100%
+                    );
+                  "
+                >
+                  <i data-lucide="users" class="w-7 h-7 text-white"></i>
+                </div>
+                <div class="feature-number">01</div>
+                <h3 class="feature-title-super">Sinergi Orang Tua</h3>
+                <p class="feature-desc-super">
+                  Menghubungkan guru dan orang tua secara efisien untuk
+                  memastikan setiap perubahan nilai maupun catatan perilaku
+                  siswa dapat langsung dipantau.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Efisien</span>
+                  <span class="feature-tag-super">Komunikasi</span>
+                  <span class="feature-tag-super">Pengawasan</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Feature 2 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #38bdf8 0%,
+                      #0369a1 100%
+                    );
+                  "
+                >
+                  <i data-lucide="bar-chart-3" class="w-7 h-7 text-white"></i>
+                </div>
+                <div class="feature-number">02</div>
+                <h3 class="feature-title-super">Analitik Nilai</h3>
+                <p class="feature-desc-super">
+                  Pantau tren nilai siswa dengan grafik interaktif. Identifikasi
+                  area yang perlu ditingkatkan secara objektif dan instan.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Grafik Tren</span>
+                  <span class="feature-tag-super">Distribusi Nilai</span>
+                  <span class="feature-tag-super">Rata-rata</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Feature 3 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #34d399 0%,
+                      #065f46 100%
+                    );
+                  "
+                >
+                  <i data-lucide="database" class="w-7 h-7 text-white"></i>
+                </div>
+                <div class="feature-number">03</div>
+                <h3 class="feature-title-super">Manajemen Data</h3>
+                <p class="feature-desc-super">
+                  Kelola data siswa, nilai, kehadiran, dan pelanggaran dalam
+                  satu platform terintegrasi tanpa repot.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Import CSV</span>
+                  <span class="feature-tag-super">Copy Paste</span>
+                  <span class="feature-tag-super">Manual Input</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Feature 4 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #fb923c 0%,
+                      #c2410c 100%
+                    );
+                  "
+                >
+                  <i data-lucide="bell" class="w-7 h-7 text-white"></i>
+                </div>
+                <div class="feature-number">04</div>
+                <h3 class="feature-title-super">Notifikasi Real-Time</h3>
+                <p class="feature-desc-super">
+                  Dapatkan notifikasi instan tentang perkembangan terbaru siswa,
+                  termasuk nilai baru dan absensi kehadiran.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Nilai Baru</span>
+                  <span class="feature-tag-super">Kehadiran</span>
+                  <span class="feature-tag-super">Pelanggaran</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Feature 5 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #c084fc 0%,
+                      #6b21a8 100%
+                    );
+                  "
+                >
+                  <i
+                    data-lucide="layout-dashboard"
+                    class="w-7 h-7 text-white"
+                  ></i>
+                </div>
+                <div class="feature-number">05</div>
+                <h3 class="feature-title-super">Dashboard Interaktif</h3>
+                <p class="feature-desc-super">
+                  Pantau semua data siswa dalam satu tampilan yang informatif
+                  dengan statistik real-time dan penyajian infografis.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Statistik</span>
+                  <span class="feature-tag-super">Grafik</span>
+                  <span class="feature-tag-super">Aktivitas</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Feature 6 -->
+              <div class="feature-card-super">
+                <div
+                  class="feature-icon-super"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #f43f5e 0%,
+                      #9f1239 100%
+                    );
+                  "
+                >
+                  <i data-lucide="shield" class="w-7 h-7 text-white"></i>
+                </div>
+                <div class="feature-number">06</div>
+                <h3 class="feature-title-super">Keamanan Data</h3>
+                <p class="feature-desc-super">
+                  Data siswa terjamin aman dengan sistem keamanan berlapis dan
+                  teknologi enkripsi end-to-end data terbaik.
+                </p>
+                <div class="feature-tags-super">
+                  <span class="feature-tag-super">Enkripsi</span>
+                  <span class="feature-tag-super">Privasi</span>
+                  <span class="feature-tag-super">Aman</span>
+                </div>
+                <div class="feature-arrow">
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== WORKFLOW SECTION ==================== -->
+        <section id="workflow" class="workflow-section w-full">
+          <div class="workflow-glow glow-1"></div>
+          <div class="workflow-glow glow-2"></div>
+          <div class="workflow-glow glow-3"></div>
+          <div class="workflow-header">
+            <span class="workflow-badge">
+              <i data-lucide="workflow"></i> Cara Kerja Parent Alert
+            </span>
+            <h2>Hanya <span>3 Langkah Mudah</span> Untuk Memantau Siswa</h2>
+            <p>
+              Sistem kami dirancang sederhana namun efektif sehingga guru dan
+              orang tua dapat terhubung secara real-time.
+            </p>
+          </div>
+
+          <div class="workflow-wrapper">
+            <div class="workflow-line"></div>
+
+            <div class="workflow-item left">
+              <div class="workflow-icon purple">
+                <i data-lucide="clipboard-pen-line"></i>
+              </div>
+              <div class="workflow-content">
+                <div class="big-step">01</div>
+                <span>STEP 01</span>
+                <h3>Guru Menginput Data</h3>
+                <p>
+                  Guru memasukkan nilai, presensi dan catatan kedisiplinan siswa
+                  melalui dashboard.
+                </p>
+              </div>
+            </div>
+
+            <div class="workflow-item right">
+              <div class="workflow-icon blue">
+                <i data-lucide="database"></i>
+              </div>
+              <div class="workflow-content">
+                <div class="big-step">02</div>
+                <span>STEP 02</span>
+                <h3>Sistem Memproses</h3>
+                <p>
+                  Data disimpan dan diproses secara otomatis untuk menghasilkan
+                  laporan yang akurat.
+                </p>
+              </div>
+            </div>
+
+            <div class="workflow-item left">
+              <div class="workflow-icon pink">
+                <i data-lucide="bell-ring"></i>
+              </div>
+              <div class="workflow-content">
+                <div class="big-step">03</div>
+                <span>STEP 03</span>
+                <h3>Orang Tua Menerima Notifikasi</h3>
+                <p>
+                  Orang tua dapat langsung memantau perkembangan siswa melalui
+                  portal Parent Alert.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ABOUT SECTION ==================== -->
+        <section
+          id="about"
+          class="w-full py-24 px-6 md:px-12 relative overflow-hidden"
+          style="
+            background: linear-gradient(
+              180deg,
+              #0f0a2a 0%,
+              #1a1040 50%,
+              #0f0a2a 100%
+            );
+          "
+        >
+          <div class="max-w-6xl mx-auto">
+            <div class="text-center">
+              <span
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/20 bg-purple-500/10 text-purple-400 text-xs font-semibold"
+              >
+                <i data-lucide="building-2" class="w-4 h-4"></i> Tentang Kami
+              </span>
+              <h2 class="text-4xl md:text-5xl font-bold text-white mt-6">
+                Parent Alert
+              </h2>
+              <p
+                class="mt-5 text-slate-400 max-w-3xl mx-auto leading-relaxed text-lg"
+              >
+                Parent Alert merupakan platform monitoring siswa yang membantu
+                sekolah dan orang tua memantau perkembangan akademik, kehadiran,
+                serta kedisiplinan siswa secara real-time melalui satu sistem
+                yang aman, modern, dan terintegrasi.
+              </p>
+            </div>
+
+            <div class="about-stats mt-14">
+              <div class="about-stat">
+                <h3>24/7</h3>
+                <p>Monitoring</p>
+              </div>
+              <div class="about-stat">
+                <h3>100%</h3>
+                <p>Data Aman</p>
+              </div>
+              <div class="about-stat">
+                <h3>Real-Time</h3>
+                <p>Notifikasi</p>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+              <div class="about-card">
+                <i data-lucide="graduation-cap"></i>
+                <h3>Monitoring Akademik</h3>
+                <p>Pantau perkembangan nilai dan prestasi siswa.</p>
+              </div>
+              <div class="about-card">
+                <i data-lucide="calendar-check"></i>
+                <h3>Kehadiran Real-Time</h3>
+                <p>Informasi presensi dapat diakses kapan saja.</p>
+              </div>
+              <div class="about-card">
+                <i data-lucide="bell-ring"></i>
+                <h3>Notifikasi Instan</h3>
+                <p>Dapatkan pemberitahuan penting secara langsung.</p>
+              </div>
+              <div class="about-card">
+                <i data-lucide="shield-check"></i>
+                <h3>Keamanan Data</h3>
+                <p>Data tersimpan dengan aman dan terproteksi.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== CONTACT SECTION ==================== -->
+        <section
+          id="contact"
+          class="w-full py-24 px-6 md:px-12 relative overflow-hidden"
+          style="
+            background: linear-gradient(
+              180deg,
+              #0f0a2a 0%,
+              #1a1040 50%,
+              #0f0a2a 100%
+            );
+          "
+        >
+          <div class="contact-container max-w-6xl mx-auto">
+            <div class="contact-header text-center">
+              <span class="contact-badge">
+                <i data-lucide="messages-square"></i> Contact Us
+              </span>
+              <h2>Hubungi Tim <span>Parent Alert</span></h2>
+              <p>
+                Memiliki pertanyaan, saran, atau membutuhkan bantuan? Tim kami
+                siap membantu Anda kapan saja.
+              </p>
+            </div>
+
+            <div class="contact-card mt-14">
+              <div class="contact-item">
+                <i data-lucide="phone"></i>
+                <div>
+                  <h3>Nomor Admin</h3>
+                  <p>+62 812-7348-7877</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="mail"></i>
+                <div>
+                  <h3>Email</h3>
+                  <p>nengwae82217@gmail.com</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <div>
+                  <h3>Lokasi</h3>
+                  <p>Bandar Lampung, Indonesia</p>
+                </div>
+              </div>
+              <a
+                href="https://wa.me/6281273487877"
+                target="_blank"
+                class="contact-btn"
+              >
+                <i data-lucide="message-circle"></i> Hubungi via WhatsApp
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="footer-mini w-full">
+          <div class="footer-mini-content max-w-7xl mx-auto px-6 md:px-12">
+            <div class="footer-left">
+              <span class="footer-dot"></span>
+              <span>Parent Alert</span>
+            </div>
+            <div class="footer-right">© 2026 Parent Alert • PTI 2024</div>
+          </div>
+        </footer>
+      </div>
+
+      <!-- ==================== LOGIN PAGE VIEW ==================== -->
+      <div
+        id="loginPageView"
+        class="fixed inset-0 z-50 min-h-screen bg-gradient-to-tr from-[#1a1635] via-[#241d4f] to-[#120e24] flex items-center justify-center p-4 sm:p-6 md:p-10 font-sans overflow-y-auto"
+        style="display: none"
+      >
+        <div
+          class="login-bubble opacity-20 blur-xl bg-purple-600 rounded-full absolute mix-blend-screen filter"
+          style="
+            width: 400px;
+            height: 400px;
+            top: -150px;
+            left: -100px;
+            animation-duration: 25s;
+          "
+        ></div>
+        <div
+          class="login-bubble opacity-15 blur-2xl bg-indigo-500 rounded-full absolute mix-blend-screen filter"
+          style="
+            width: 350px;
+            height: 350px;
+            bottom: -100px;
+            right: -50px;
+            animation-duration: 20s;
+          "
+        ></div>
+        <div
+          class="login-bubble opacity-10 blur-xl bg-pink-500 rounded-full absolute mix-blend-screen filter"
+          style="
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 10%;
+            animation-duration: 18s;
+          "
+        ></div>
+
+        <div
+          class="w-full max-w-5xl bg-[#161233]/80 backdrop-blur-xl border border-white/10 rounded-[28px] shadow-[0_30px_70px_rgba(0,0,0,0.5)] overflow-hidden relative z-10 p-4 transition-all duration-500"
+        >
+          <div class="flex flex-col md:flex-row gap-4 min-h-[580px]">
+            <!-- LEFT PANEL -->
+            <div
+              class="w-full md:w-[42%] bg-gradient-to-br from-[#4d96ff] via-[#6c5dd3] to-[#e485ff] rounded-[22px] p-8 flex flex-col justify-between relative overflow-hidden shadow-lg"
+            >
+              <div
+                class="absolute -right-16 -top-16 w-48 h-48 bg-white/20 rounded-full blur-2xl pointer-events-none"
+              ></div>
+              <div
+                class="text-white text-4xl font-light select-none animate-spin"
+                style="animation-duration: 12s"
+              >
+                *
+              </div>
+              <div class="relative z-10 text-white my-auto py-6">
+                <span
+                  class="text-white/70 text-[10px] font-bold uppercase tracking-widest block mb-2"
+                  >Parent Alert System</span
+                >
+                <h1
+                  id="leftPanelTitle"
+                  class="text-3xl font-extrabold leading-tight tracking-tight mb-4 transition-all duration-500 transform"
+                >
+                  Mari Bergabung!
+                </h1>
+                <p
+                  id="leftPanelDesc"
+                  class="text-white/80 text-xs leading-relaxed mb-6 font-medium transition-all duration-500"
+                >
+                  Platform monitoring terintegrasi untuk memantau perkembangan
+                  akademik, kehadiran, dan kedisiplinan siswa secara real-time.
+                </p>
+                <ul
+                  id="leftPanelFeatures"
+                  class="space-y-3 text-xs text-white/90 font-medium transition-all duration-500"
+                >
+                  <li
+                    class="flex items-center gap-3 transform hover:translate-x-1 transition-transform"
+                  >
+                    <span class="p-1 bg-white/20 rounded-lg"
+                      ><i
+                        data-lucide="check"
+                        class="w-3.5 h-3.5 text-white"
+                      ></i></span
+                    >Akses info kapan saja & instan
+                  </li>
+                  <li
+                    class="flex items-center gap-3 transform hover:translate-x-1 transition-transform"
+                  >
+                    <span class="p-1 bg-white/20 rounded-lg"
+                      ><i
+                        data-lucide="check"
+                        class="w-3.5 h-3.5 text-white"
+                      ></i></span
+                    >Notifikasi perkembangan anak langsung
+                  </li>
+                  <li
+                    class="flex items-center gap-3 transform hover:translate-x-1 transition-transform"
+                  >
+                    <span class="p-1 bg-white/20 rounded-lg"
+                      ><i
+                        data-lucide="check"
+                        class="w-3.5 h-3.5 text-white"
+                      ></i></span
+                    >Keamanan rekam data siswa terjamin
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="mt-6 pt-4 border-t border-white/10 flex items-center gap-3 relative z-10"
+              >
+                <div class="flex -space-x-2">
+                  <span
+                    class="w-6 h-6 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-[9px] font-bold"
+                    >D</span
+                  >
+                  <span
+                    class="w-6 h-6 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-[9px] font-bold"
+                    >S</span
+                  >
+                  <span
+                    class="w-6 h-6 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-[9px] font-bold"
+                    >A</span
+                  >
+                </div>
+                <span class="text-[11px] text-white/70 font-medium"
+                  >Bergabung dengan ekosistem digital sekolah</span
+                >
+              </div>
+            </div>
+
+            <!-- RIGHT PANEL -->
+            <div
+              class="w-full md:w-[58%] p-5 md:p-8 flex flex-col justify-center relative"
+            >
+              <div class="absolute top-2 right-2 md:top-4 md:right-4 z-20">
+                <button
+                  type="button"
+                  onclick="closeLoginPage()"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300 outline-none border border-transparent hover:border-white/10"
+                >
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <div class="mb-6 relative z-10">
+                <div class="flex gap-6 border-b border-white/5 pb-2">
+                  <button
+                    type="button"
+                    id="tabLoginBtn"
+                    onclick="switchAuthTab('login')"
+                    class="text-base font-bold border-b-2 border-purple-500 text-white pb-1 transition-all duration-300 uppercase tracking-wide outline-none"
+                  >
+                    Masuk
+                  </button>
+                  <button
+                    type="button"
+                    id="tabRegisterBtn"
+                    onclick="switchAuthTab('register')"
+                    class="text-base font-bold text-gray-500 hover:text-gray-300 pb-1 transition-all duration-300 uppercase tracking-wide outline-none"
+                  >
+                    Daftar Akun
+                  </button>
+                </div>
+                <p
+                  id="formSubtitle"
+                  class="text-gray-400 text-xs mt-2 font-medium tracking-wide"
+                >
+                  Silakan masukkan kredensial akun Anda untuk masuk ke sistem
+                </p>
+              </div>
+
+              <form
+                id="authForm"
+                class="space-y-4 relative z-10"
+                onsubmit="handleAuthSubmit(event)"
+              >
+                <div
+                  id="groupRegisterName"
+                  class="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out transform -translate-y-2 space-y-1.5"
+                >
+                  <label
+                    class="block text-xs font-bold text-gray-300 uppercase tracking-wider"
+                    >Nama Lengkap</label
+                  >
+                  <div class="relative group">
+                    <span
+                      class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors"
+                    >
+                      <i data-lucide="user" class="w-4 h-4"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="authName"
+                      class="w-full text-xs pl-10 pr-4 py-3 bg-[#1e1942]/60 border border-white/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-500 font-medium"
+                      placeholder="Nama lengkap Anda"
+                    />
+                  </div>
+                </div>
+
+                <div id="groupRegisterRole">
+                  <label class="dropdown-label">MASUK / DAFTAR SEBAGAI</label>
+                  <div style="position: relative; width: 100%">
+                    <button
+                      type="button"
+                      onclick="toggleCustomDropdown()"
+                      class="dropdown-role-btn"
+                    >
+                      <span id="dropdownSelectedValue" data-value="parent"
+                        >Orang Tua Murid (Wali)</span
+                      >
+                      <svg
+                        class="dropdown-chevron"
+                        id="dropdownChevron"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        ></path>
+                      </svg>
+                    </button>
+                    <div id="dropdownMenuOptions" class="dropdown-role-menu">
+                      <div
+                        onclick="
+                          selectRoleOption('parent', 'Orang Tua Murid (Wali)')
+                        "
+                        class="dropdown-role-item"
+                      >
+                        Orang Tua Murid (Wali)
+                      </div>
+                      <div
+                        onclick="
+                          selectRoleOption('admin', 'Admin / Guru Sekolah')
+                        "
+                        class="dropdown-role-item"
+                      >
+                        Admin / Guru Sekolah
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  id="groupRegisterStudent"
+                  class="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out transform -translate-y-2 space-y-1.5"
+                >
+                  <label
+                    class="block text-xs font-bold text-gray-300 uppercase tracking-wider"
+                    >Pilih Nama Anak</label
+                  >
+                  <div class="relative group">
+                    <span
+                      class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors"
+                    >
+                      <i data-lucide="users" class="w-4 h-4"></i>
+                    </span>
+                    <select
+                      id="authStudent"
+                      class="w-full text-xs pl-10 pr-4 py-3 bg-[#1e1942]/60 border border-white/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-500 font-medium appearance-none cursor-pointer"
+                    >
+                      <option value="">-- Pilih Anak --</option>
+                    </select>
+                    <span
+                      class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 pointer-events-none"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label
+                    class="block text-xs font-bold text-gray-300 uppercase tracking-wider"
+                    >Email</label
+                  >
+                  <div class="relative group">
+                    <span
+                      class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors"
+                    >
+                      <i data-lucide="mail" class="w-4 h-4"></i>
+                    </span>
+                    <input
+                      type="email"
+                      id="authEmail"
+                      class="w-full text-xs pl-10 pr-4 py-3 bg-[#1e1942]/60 border border-white/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-500 font-medium"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label
+                    class="block text-xs font-bold text-gray-300 uppercase tracking-wider"
+                    >Password</label
+                  >
+                  <div class="relative group">
+                    <span
+                      class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 group-focus-within:text-purple-400 transition-colors"
+                    >
+                      <i data-lucide="lock" class="w-4 h-4"></i>
+                    </span>
+                    <input
+                      type="password"
+                      id="authPassword"
+                      class="w-full text-xs pl-10 pr-12 py-3 bg-[#1e1942]/60 border border-white/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-500 font-medium"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onclick="toggleLoginPassword()"
+                      class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-purple-400 transition-colors outline-none"
+                    >
+                      <i
+                        id="loginEyeIcon"
+                        data-lucide="eye"
+                        class="w-4 h-4"
+                      ></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  id="groupLoginOptions"
+                  class="flex items-center justify-between text-xs pt-1 transition-all duration-300"
+                >
+                  <label
+                    class="flex items-center gap-2 cursor-pointer select-none text-gray-400 font-medium group"
+                  >
+                    <input
+                      type="checkbox"
+                      id="loginRemember"
+                      class="w-4.5 h-4.5 rounded bg-gray-800 border-white/10 text-purple-600 focus:ring-purple-500/20 accent-purple-500"
+                    />
+                    Ingat saya
+                  </label>
+                  <a
+                    href="#"
+                    onclick="forgotPassword(event)"
+                    class="text-purple-400 font-bold hover:text-purple-300 transition-colors"
+                    >Lupa Password?</a
+                  >
+                </div>
+
+                <button
+                  type="submit"
+                  id="submitBtn"
+                  class="w-full bg-gradient-to-r from-[#6c5dd3] to-[#8a7cf5] hover:from-[#5b4ec2] hover:to-[#796ae3] text-white font-bold py-3.5 px-4 rounded-xl shadow-[0_0_20px_rgba(108,93,211,0.3)] hover:shadow-[0_0_30px_rgba(108,93,211,0.6)] transition-all duration-300 flex items-center justify-center gap-2 text-xs tracking-wider uppercase mt-4"
+                >
+                  <span id="submitBtnText">MASUK KE DASHBOARD</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </form>
+
+              <div id="socialAuthGroup" class="mt-6 relative z-10">
+                <div class="relative flex items-center justify-center mb-4">
+                  <div class="w-full border-t border-white/5"></div>
+                  <span
+                    class="absolute bg-[#161233] px-3 text-[10px] text-gray-500 font-bold tracking-widest uppercase"
+                    >Atau Lanjutkan Dengan</span
+                  >
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                  <button
+                    onclick="socialLogin('Behance')"
+                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
+                  >
+                    <i data-lucide="box" class="w-4 h-4 text-gray-400"></i
+                    ><span class="hidden sm:inline">Behance</span>
+                  </button>
+                  <button
+                    onclick="socialLogin('Google')"
+                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
+                  >
+                    <i data-lucide="chrome" class="w-4 h-4 text-red-400"></i
+                    ><span class="hidden sm:inline">Google</span>
+                  </button>
+                  <button
+                    onclick="socialLogin('Facebook')"
+                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
+                  >
+                    <i data-lucide="facebook" class="w-4 h-4 text-blue-400"></i
+                    ><span class="hidden sm:inline">Facebook</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="text-center mt-6 relative z-10">
+                <p
+                  id="toggleAuthFooter"
+                  class="text-xs text-gray-400 font-medium"
+                >
+                  <span id="footerTextLabel">Belum punya akun?</span>
+                  <a
+                    href="#"
+                    id="footerActionLink"
+                    onclick="
+                      event.preventDefault();
+                      switchAuthTab(
+                        currentMode === 'login' ? 'register' : 'login',
+                      );
+                    "
+                    class="text-purple-400 font-bold hover:text-purple-300 underline ml-1 transition-colors"
+                    >Buat Akun Baru</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== MAIN APP VIEW ==================== -->
+      <div
+        id="mainApp"
+        style="display: none"
+        class="h-full w-full flex overflow-hidden relative z-10"
+      >
+        <aside
+          id="sidebar"
+          class="w-64 border-r border-slate-200 bg-white p-5 flex flex-col justify-between h-full"
+        >
+          <div>
+            <div
+              class="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-indigo-950/40"
+            >
+              <div
+                class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white shadow-md"
+              >
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div
+                  class="text-slate-900 dark:text-white font-extrabold text-sm tracking-tight"
+                  id="sidebarTitle"
+                >
+                  PARENT ALERT
+                </div>
+                <div
+                  class="text-[11px] text-purple-600 dark:text-purple-400 font-bold"
+                  id="sidebarRole"
+                >
+                  Admin
+                </div>
+              </div>
+            </div>
+            <nav id="sidebarNav" class="mt-6 flex flex-col gap-1 flex-1"></nav>
+          </div>
+          <div
+            class="pt-4 border-t border-slate-200 dark:border-indigo-950/60 flex flex-col gap-3"
+          >
+            <div class="flex items-center gap-3 px-2 py-1">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-sm"
+                id="avatarName"
+              >
+                U
+              </div>
+              <div class="overflow-hidden">
+                <div
+                  class="text-xs font-bold text-slate-900 dark:text-white truncate"
+                  id="userProfileName"
+                >
+                  User
+                </div>
+                <div
+                  class="text-[10px] text-slate-400 dark:text-indigo-300/40 truncate"
+                  id="userEmailDisplay"
+                >
+                  user@email.com
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 cursor-pointer transition-colors"
+              onclick="handleLogout()"
+            >
+              <i data-lucide="log-out" class="w-4 h-4"></i
+              ><span>Keluar Sistem</span>
+            </div>
+          </div>
+        </aside>
+        <main class="flex-1 flex flex-col overflow-hidden h-full bg-[#f0f4f8]">
+          <header
+            class="h-16 border-b border-slate-200 dark:border-indigo-950/60 bg-white dark:bg-[#0a081e] px-6 flex items-center justify-between z-10"
+          >
+            <h2
+              id="pageCurrentTitle"
+              class="text-base font-bold text-slate-900 dark:text-white"
+            >
+              Dashboard Utama
+            </h2>
+            <div class="flex items-center gap-3">
+              <button
+                class="w-9 h-9 rounded-lg border border-slate-200 dark:border-indigo-950/60 flex items-center justify-center bg-white dark:bg-[#0d0b21] text-slate-600 dark:text-indigo-300 hover:bg-slate-100 dark:hover:bg-indigo-950/40 transition-colors"
+                onclick="toggleDarkMode()"
+              >
+                <i data-lucide="moon" class="w-4 h-4" id="darkIcon"></i>
+              </button>
+            </div>
+          </header>
+          <div
+            id="mainContent"
+            class="flex-1 overflow-y-auto p-6 space-y-6 scroll-clean"
+          ></div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+    <div
+      id="importModal"
+      class="fixed inset-0 bg-slate-900/40 dark:bg-[#03020a]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style="display: none"
+    >
+      <div
+        class="w-full max-w-xl rounded-2xl border border-slate-200 dark:border-indigo-950/60 p-6 bg-white dark:bg-[#0d0b21] shadow-2xl"
+      >
+        <div class="flex justify-between items-center mb-2">
+          <h3
+            class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"
+          >
+            <i data-lucide="database-backup" class="text-purple-500"></i> Import
+            Berkas CSV Massal
+          </h3>
+          <button
+            onclick="closeImportModal()"
+            class="text-slate-400 hover:text-slate-600"
+          >
+            ✕
+          </button>
+        </div>
+        <textarea
+          id="importData"
+          class="w-full p-3 text-xs font-mono rounded-lg border border-slate-200 dark:border-indigo-950/60 bg-slate-50 dark:bg-[#060415] text-slate-800 dark:text-indigo-100 focus:outline-none focus:border-purple-500 min-h-[140px] mb-4"
+          placeholder="Contoh:&#10;Budi,11-RPL,Akademik,Nilai UTS RPL: 92,2026-06-11"
+        ></textarea>
+        <div class="flex gap-2 justify-end">
+          <button
+            onclick="closeImportModal()"
+            class="px-4 py-2 border border-slate-200 dark:border-indigo-950/60 text-xs rounded-lg text-slate-600 dark:text-indigo-300 hover:bg-slate-50 dark:hover:bg-indigo-950/20"
+          >
+            Batal
+          </button>
+          <button
+            class="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold py-2 px-5 text-xs rounded-lg shadow-sm"
+            onclick="importDataCSV()"
+          >
+            Proses Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="inputFormModal"
+      class="fixed inset-0 bg-slate-900/40 dark:bg-[#03020a]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style="display: none"
+    >
+      <div
+        class="w-full max-w-md rounded-2xl border border-slate-200 dark:border-indigo-950/60 p-6 bg-white dark:bg-[#0d0b21] shadow-2xl"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h3
+            id="formModalTitle"
+            class="text-sm font-bold text-slate-900 dark:text-white"
+          >
+            Tambah Catatan
+          </h3>
+          <button
+            onclick="closeInputFormModal()"
+            class="text-slate-400 hover:text-slate-600"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Nama Siswa</label
+            ><input
+              id="formNama"
+              type="text"
+              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-indigo-950/60 bg-slate-50 dark:bg-[#060415] text-slate-800 dark:text-indigo-100 focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Kelas</label
+            ><input
+              id="formKelas"
+              type="text"
+              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-indigo-950/60 bg-slate-50 dark:bg-[#060415] text-slate-800 dark:text-indigo-100 focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Deskripsi</label
+            ><input
+              id="formDetail"
+              type="text"
+              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-indigo-950/60 bg-slate-50 dark:bg-[#060415] text-slate-800 dark:text-indigo-100 focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Tanggal</label
+            ><input
+              id="formTanggal"
+              type="date"
+              class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-indigo-950/60 bg-slate-50 dark:bg-[#060415] text-slate-800 dark:text-indigo-100 focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div class="flex justify-end gap-2 pt-2">
+            <button
+              onclick="closeInputFormModal()"
+              class="px-4 py-2 border border-slate-200 dark:border-indigo-950/60 text-xs rounded-lg text-slate-600 dark:text-indigo-300 hover:bg-slate-50 dark:hover:bg-indigo-950/20"
+            >
+              Batal
+            </button>
+            <button
+              class="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold py-2 px-5 text-xs rounded-lg shadow-sm"
+              onclick="saveFormRecord()"
+            >
+              Simpan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="addStudentModal"
+      class="fixed inset-0 bg-slate-900/40 dark:bg-[#03020a]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style="display: none"
+    >
+      <div
+        class="w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-indigo-950/60 p-6 bg-white dark:bg-[#0d0b21] shadow-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h3
+            class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
+          >
+            <i data-lucide="user-plus" class="text-purple-500"></i> Tambah Data
+            Siswa
+          </h3>
+          <button
+            onclick="closeAddStudentModal()"
+            class="text-slate-400 hover:text-slate-600 text-xl"
+          >
+            ✕
+          </button>
+        </div>
+        <div
+          class="flex gap-2 border-b border-slate-200 dark:border-slate-700 mb-4 overflow-x-auto"
+        >
+          <button
+            onclick="switchStudentTab('manual')"
+            id="tabManual"
+            class="px-4 py-2 text-sm font-semibold border-b-2 border-purple-500 text-purple-600 dark:text-purple-400 transition-all whitespace-nowrap"
+          >
+            Input Manual
+          </button>
+          <button
+            onclick="switchStudentTab('import')"
+            id="tabImport"
+            class="px-4 py-2 text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 transition-all whitespace-nowrap"
+          >
+            Import Data
+          </button>
+        </div>
+        <div id="studentTabManual" class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1"
+                >Nama Siswa</label
+              ><input
+                id="studentName"
+                type="text"
+                class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1"
+                >Kelas</label
+              ><input
+                id="studentClass"
+                type="text"
+                class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+                placeholder="Contoh: 12-RPL"
+              />
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button
+              onclick="addStudentManually()"
+              class="flex-1 bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-all"
+            >
+              Tambah Siswa
+            </button>
+            <button
+              onclick="saveManualStudents()"
+              class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-all"
+            >
+              Simpan Semua
+            </button>
+          </div>
+          <div
+            id="manualStudentList"
+            class="mt-3 max-h-40 overflow-y-auto"
+          ></div>
+        </div>
+        <div id="studentTabImport" class="space-y-3" style="display: none">
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">
+            Import data siswa, akademik, kehadiran, dan pelanggaran sekaligus.
+            Data akan otomatis terdistribusi ke halaman yang sesuai.
+          </p>
+          <div
+            id="fullDropZone"
+            class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-8 text-center hover:border-emerald-500 transition-all cursor-pointer"
+            ondragover="handleFullDragOver(event)"
+            ondragleave="handleFullDragLeave(event)"
+            ondrop="handleFullDrop(event)"
+            onclick="document.getElementById('fullCsvFileInput').click()"
+          >
+            <i
+              data-lucide="upload"
+              class="w-16 h-16 text-slate-400 mx-auto"
+            ></i>
+            <p class="text-sm text-slate-500 mt-3 font-semibold">
+              Drop file di sini
+            </p>
+            <p class="text-xs text-slate-400">atau klik untuk memilih file</p>
+            <p class="text-xs text-slate-400 mt-1">
+              Support: CSV, Excel (.xlsx, .xls), TXT
+            </p>
+            <input
+              type="file"
+              id="fullCsvFileInput"
+              accept=".csv,.xlsx,.xls,.txt"
+              class="hidden"
+              onchange="handleFullFile(event)"
+            />
+          </div>
+          <div
+            id="fullImportPreview"
+            class="mt-3 max-h-40 overflow-y-auto"
+          ></div>
+          <div class="relative">
+            <div class="relative flex items-center justify-center my-3">
+              <div
+                class="w-full border-t border-slate-200 dark:border-slate-700"
+              ></div>
+              <span
+                class="absolute bg-white dark:bg-[#0d0b21] px-3 text-xs text-slate-400"
+                >atau tempel data di sini</span
+              >
+            </div>
+            <textarea
+              id="pasteFullData"
+              rows="4"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500 font-mono"
+              placeholder="Daffa Rayhan,12-RPL,Akademik,Nilai UTS: 85,2026-06-17"
+            ></textarea>
+          </div>
+          <div class="flex gap-2">
+            <button
+              onclick="importFullDataPaste()"
+              class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all"
+            >
+              Import Data
+            </button>
+          </div>
+          <div class="text-xs text-slate-400 space-y-1 mt-2">
+            <p><strong>Format Fleksibel:</strong></p>
+            <p class="text-[10px] text-slate-400 ml-2">
+              Lengkap (7 kolom):
+              Nama,Kelas,Kategori,Keterangan,Tanggal,Nilai_Angka,Predikat
+            </p>
+            <p class="text-[10px] text-slate-400 ml-2">
+              Sedang (5 kolom): Nama,Kelas,Kategori,Keterangan,Tanggal
+            </p>
+            <p class="text-[10px] text-slate-400 ml-2">
+              Minimal (4 kolom): Nama,Kelas,Kategori,Keterangan (tanggal
+              otomatis hari ini)
+            </p>
+            <p class="text-[10px] text-slate-400 mt-1">
+              <strong>Kategori:</strong> Akademik, Kehadiran, Pelanggaran
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex justify-end gap-2 pt-4 border-t border-slate-200 dark:border-slate-700 mt-4"
+        >
+          <button
+            onclick="closeAddStudentModal()"
+            class="px-4 py-2 border border-slate-200 dark:border-slate-700 text-sm rounded-lg text-slate-600 dark:text-indigo-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="editNilaiModal"
+      class="fixed inset-0 bg-slate-900/40 dark:bg-[#03020a]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style="display: none"
+    >
+      <div
+        class="w-full max-w-md rounded-2xl border border-slate-200 dark:border-indigo-950/60 p-6 bg-white dark:bg-[#0d0b21] shadow-2xl"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h3
+            class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
+          >
+            <i data-lucide="pencil" class="text-purple-500"></i> Edit Nilai
+          </h3>
+          <button
+            onclick="closeEditNilaiModal()"
+            class="text-slate-400 hover:text-slate-600 text-xl"
+          >
+            ✕
+          </button>
+        </div>
+        <input type="hidden" id="editNilaiIndex" />
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Nama Siswa</label
+            ><input
+              id="editNilaiSiswa"
+              type="text"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Mata Pelajaran</label
+            ><input
+              id="editNilaiMapel"
+              type="text"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Nilai</label
+            ><input
+              id="editNilaiAngka"
+              type="number"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+              min="0"
+              max="100"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Predikat</label
+            ><input
+              id="editNilaiPredikat"
+              type="text"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+              placeholder="Baik / Cukup / Kurang"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 mb-1"
+              >Tanggal</label
+            ><input
+              id="editNilaiTanggal"
+              type="date"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div class="flex justify-end gap-2 pt-2">
+            <button
+              onclick="closeEditNilaiModal()"
+              class="px-4 py-2 border border-slate-200 dark:border-slate-700 text-sm rounded-lg text-slate-600 dark:text-indigo-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+            >
+              Batal
+            </button>
+            <button
+              onclick="saveEditNilai()"
+              class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all"
+            >
+              Simpan Perubahan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="tambahNilaiModal"
+      class="fixed inset-0 bg-slate-900/50 dark:bg-[#03020a]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style="display: none"
+    >
+      <div
+        class="w-full max-w-lg rounded-2xl border border-slate-200 dark:border-indigo-950/60 p-6 bg-white dark:bg-[#0d0b21] shadow-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h3
+            class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2"
+          >
+            <i data-lucide="plus-circle" class="text-purple-500"></i> Tambah
+            Nilai
+          </h3>
+          <button
+            onclick="closeTambahNilaiModal()"
+            class="text-slate-400 hover:text-slate-600 text-2xl leading-none"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="modal-tabs">
+          <button
+            onclick="switchNilaiTab('manual')"
+            id="nilaiTabBtnManual"
+            class="active"
+          >
+            Manual
+          </button>
+          <button onclick="switchNilaiTab('massal')" id="nilaiTabBtnMassal">
+            Massal
+          </button>
+        </div>
+        <div id="nilaiTabManual" class="space-y-4">
+          <div class="nilai-form-group">
+            <label>Pilih Siswa</label
+            ><select id="tambahNilaiSiswa" class="nilai-select">
+              <option value="">-- Pilih Siswa --</option>
+            </select>
+          </div>
+          <div class="nilai-form-group">
+            <label>Mata Pelajaran</label
+            ><input
+              id="tambahNilaiMapel"
+              type="text"
+              class="nilai-input"
+              placeholder="Contoh: Matematika"
+            />
+          </div>
+          <div class="nilai-form-group">
+            <label>Nilai (0-100)</label
+            ><input
+              id="tambahNilaiAngka"
+              type="number"
+              class="nilai-input"
+              min="0"
+              max="100"
+              placeholder="85"
+              oninput="updatePredikatManual(this.value)"
+            />
+            <div id="tambahPredikatDisplay" class="predikat-display">
+              Predikat: <span id="tambahPredikatText"></span>
+            </div>
+          </div>
+          <div class="nilai-form-group">
+            <label>Tanggal</label
+            ><input id="tambahNilaiTanggal" type="date" class="nilai-input" />
+          </div>
+          <button
+            onclick="saveTambahNilai()"
+            class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+          >
+            Tambah Nilai
+          </button>
+        </div>
+        <div id="nilaiTabMassal" class="space-y-4" style="display: none">
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Format: <strong>Nama, Mata Pelajaran, Nilai, Tanggal</strong
+            ><br /><span class="text-xs"
+              >Contoh: Daffa Rayhan, Matematika, 85, 2026-06-17</span
+            >
+          </p>
+          <div
+            class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center hover:border-purple-500 transition-all cursor-pointer"
+            onclick="document.getElementById('importNilaiFileInput').click()"
+          >
+            <i
+              data-lucide="upload"
+              class="w-12 h-12 text-slate-400 mx-auto"
+            ></i>
+            <p class="text-sm text-slate-500 mt-2 font-semibold">
+              Upload file CSV atau TXT
+            </p>
+            <p class="text-xs text-slate-400">atau klik untuk memilih file</p>
+            <input
+              type="file"
+              id="importNilaiFileInput"
+              accept=".csv,.txt"
+              class="hidden"
+              onchange="handleImportNilaiFile(event)"
+            />
+          </div>
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div
+                class="w-full border-t border-slate-200 dark:border-slate-700"
+              ></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="bg-white dark:bg-[#0d0b21] px-4 text-slate-400"
+                >atau tempel data di sini</span
+              >
+            </div>
+          </div>
+          <textarea
+            id="importNilaiData"
+            rows="6"
+            class="w-full px-4 py-3 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#060415] focus:outline-none focus:border-purple-500 font-mono"
+            placeholder="Daffa Rayhan, Matematika, 85, 2026-06-17"
+            oninput="previewImportNilai(this.value)"
+          ></textarea>
+          <div id="importNilaiPreview"></div>
+          <div class="flex gap-3">
+            <button
+              onclick="importNilaiMassal()"
+              class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+            >
+              Import Nilai
+            </button>
+            <button
+              onclick="undoLastImport()"
+              class="px-4 py-3 bg-rose-50 text-rose-600 rounded-xl font-semibold hover:bg-rose-100 transition-all flex items-center gap-2"
+            >
+              Undo
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex justify-end gap-2 pt-4 border-t border-slate-200 dark:border-slate-700 mt-4"
+        >
+          <button
+            onclick="closeTambahNilaiModal()"
+            class="px-6 py-2 border border-slate-200 dark:border-slate-700 text-sm rounded-xl text-slate-600 dark:text-indigo-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="toastContainer"
+      class="fixed top-4 right-4 z-50 flex flex-col gap-2"
+    ></div>
+
+    <script src="app.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll("#landingPageView nav a");
+
+        window.addEventListener("scroll", () => {
+          let current = "";
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 140) {
+              current = section.getAttribute("id");
+            }
+          });
+          navLinks.forEach((link) => {
+            link.classList.remove(
+              "text-purple-600",
+              "dark:text-purple-400",
+              "font-bold",
+              "border-purple-600",
+              "dark:border-purple-400",
+            );
+            link.classList.add(
+              "hover:text-purple-600",
+              "dark:hover:text-purple-400",
+              "border-transparent",
+            );
+            if (link.getAttribute("href") === `#${current}`) {
+              link.classList.add(
+                "text-purple-600",
+                "dark:text-purple-400",
+                "font-bold",
+                "border-purple-600",
+                "dark:border-purple-400",
+              );
+              link.classList.remove("border-transparent");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
