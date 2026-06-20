@@ -371,7 +371,7 @@ function executeLogin() {
       .charAt(0)
       .toUpperCase();
     document.getElementById("sidebarRole").textContent =
-      user.role === "admin" ? "👨‍🏫 Guru / Admin" : "👨‍👩‍👧 Orang Tua Murid";
+      user.role === "admin" ? "Guru / Admin" : "Orang Tua Murid";
     document.getElementById("userEmailDisplay").textContent = user.email;
     showToast(`Selamat datang kembali, ${user.name}`, "success");
     buildSidebarMenu();
@@ -429,8 +429,83 @@ function forgotPassword(event) {
   if (event) event.preventDefault();
   showToast("Link reset password telah dikirim ke email Anda!", "info");
 }
+
 function socialLogin(provider) {
-  showToast(`Login dengan ${provider} akan segera tersedia!`, "info");
+  // Untuk Google, sudah ditangani oleh handleGoogleLogin
+  if (provider === "Google") {
+    // Google akan memunculkan popup sendiri melalui SDK
+    return;
+  }
+
+  // Data dummy untuk simulasi GitHub dan Twitter
+  const socialUsers = {
+    GitHub: {
+      name: "Pengguna GitHub",
+      email: `user.github.${Math.random().toString(36).slice(-6)}@github.com`,
+      role: "parent",
+      children: "",
+    },
+    Twitter: {
+      name: "Pengguna Twitter",
+      email: `user.twitter.${Math.random().toString(36).slice(-6)}@twitter.com`,
+      role: "parent",
+      children: "",
+    },
+  };
+
+  // Simulasi login untuk GitHub dan Twitter (untuk demo)
+  let currentUsers = getRegisteredUsers();
+  const socialEmail = socialUsers[provider].email;
+  const existingUser = currentUsers.find((u) => u.email === socialEmail);
+
+  let userData = null;
+
+  if (existingUser) {
+    userData = {
+      name: existingUser.name + ` (${provider})`,
+      role: existingUser.role || "parent",
+      email: existingUser.email,
+      children: existingUser.children || "",
+    };
+  } else {
+    const newUser = {
+      email: socialEmail,
+      password: "social_" + Math.random().toString(36).slice(-8),
+      name: socialUsers[provider].name,
+      role: "parent",
+      children: "",
+    };
+    currentUsers.push(newUser);
+    localStorage.setItem("parentAlertUsers", JSON.stringify(currentUsers));
+
+    userData = {
+      name: newUser.name + ` (${provider})`,
+      role: newUser.role,
+      email: newUser.email,
+      children: newUser.children,
+    };
+  }
+
+  performLogin(userData, provider);
+
+  // Proses login
+  currentUser = userData;
+  document.getElementById("loginPageView").style.display = "none";
+  document.getElementById("mainApp").style.display = "flex";
+  document.getElementById("userProfileName").textContent = userData.name;
+  document.getElementById("avatarName").textContent = userData.name
+    .charAt(0)
+    .toUpperCase();
+  document.getElementById("sidebarRole").textContent =
+    userData.role === "admin" ? "Guru / Admin" : "Orang Tua Murid";
+  document.getElementById("userEmailDisplay").textContent = userData.email;
+
+  showToast(
+    ` Berhasil login dengan ${provider}! Selamat datang, ${userData.name}`,
+    "success",
+  );
+  buildSidebarMenu();
+  switchPage("dashboard");
 }
 
 function handleLogout() {
@@ -817,7 +892,7 @@ function renderParentDashboard(allowedRecords, currentUser) {
     return `
       <div class="parent-dashboard">
         <div class="welcome-banner-parent">
-          <h2>Selamat datang, ${currentUser.name.split(" ")[0]} 👋</h2>
+          <h2>Selamat datang, ${currentUser.name.split(" ")[0]} </h2>
           <p>Anda belum memilih anak. Silakan hubungi admin untuk mengatur data anak Anda.</p>
         </div>
       </div>
@@ -3429,3 +3504,331 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 observer.observe(contactCard);
+
+// ==================== GOOGLE LOGIN ====================
+// Fungsi ini akan dipanggil oleh Google Identity Services
+function handleGoogleLogin(response) {
+  // Decode token dari Google
+  try {
+    const payload = decodeJwtResponse(response.credential);
+
+    // Data user dari Google
+    const googleUser = {
+      email: payload.email,
+      name: payload.name,
+      picture: payload.picture,
+      given_name: payload.given_name,
+      family_name: payload.family_name,
+    };
+
+    // Cek apakah user sudah terdaftar
+    let currentUsers = getRegisteredUsers();
+    const existingUser = currentUsers.find((u) => u.email === googleUser.email);
+
+    let userData = null;
+
+    if (existingUser) {
+      // User sudah terdaftar
+      userData = {
+        name: existingUser.name,
+        email: existingUser.email,
+        role: existingUser.role || "parent",
+        children: existingUser.children || "",
+        picture: googleUser.picture,
+      };
+    } else {
+      // Buat akun baru untuk user Google
+      const newUser = {
+        email: googleUser.email,
+        password: "google_" + Math.random().toString(36).slice(-8),
+        name: googleUser.name,
+        role: "parent",
+        children: "",
+      };
+      currentUsers.push(newUser);
+      localStorage.setItem("parentAlertUsers", JSON.stringify(currentUsers));
+
+      userData = {
+        name: newUser.name + " (Google)",
+        email: newUser.email,
+        role: newUser.role,
+        children: newUser.children,
+        picture: googleUser.picture,
+      };
+    }
+
+    // Proses login
+    performLogin(userData, "Google");
+  } catch (error) {
+    console.error("Error decoding Google token:", error);
+    showToast("Gagal login dengan Google!", "error");
+  }
+}
+
+// Fungsi untuk decode JWT token dari Google
+function decodeJwtResponse(token) {
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(""),
+  );
+  return JSON.parse(jsonPayload);
+}
+
+// Fungsi login yang dipakai bersama
+function performLogin(userData, provider = "manual") {
+  currentUser = userData;
+  document.getElementById("loginPageView").style.display = "none";
+  document.getElementById("mainApp").style.display = "flex";
+  document.getElementById("userProfileName").textContent = userData.name;
+  document.getElementById("avatarName").textContent = userData.name
+    .charAt(0)
+    .toUpperCase();
+  document.getElementById("sidebarRole").textContent =
+    userData.role === "admin" ? "Guru / Admin" : "Orang Tua Murid";
+  document.getElementById("userEmailDisplay").textContent = userData.email;
+
+  // Jika ada foto profil dari Google, tampilkan
+  if (userData.picture) {
+    const avatarEl = document.getElementById("avatarName");
+    avatarEl.innerHTML = `<img src="${userData.picture}" alt="Profile" class="w-8 h-8 rounded-full object-cover">`;
+  }
+
+  showToast(
+    `✅ Berhasil login dengan ${provider}! Selamat datang, ${userData.name}`,
+    "success",
+  );
+  buildSidebarMenu();
+  switchPage("dashboard");
+}
+
+// Fungsi login yang dipakai bersama
+function performLogin(userData, provider = "manual") {
+  currentUser = userData;
+  document.getElementById("loginPageView").style.display = "none";
+  document.getElementById("mainApp").style.display = "flex";
+  document.getElementById("userProfileName").textContent = userData.name;
+  document.getElementById("avatarName").textContent = userData.name
+    .charAt(0)
+    .toUpperCase();
+  document.getElementById("sidebarRole").textContent =
+    userData.role === "admin" ? "Guru / Admin" : "Orang Tua Murid";
+  document.getElementById("userEmailDisplay").textContent = userData.email;
+
+  // Jika ada foto profil dari Google, tampilkan
+  if (userData.picture) {
+    const avatarEl = document.getElementById("avatarName");
+    avatarEl.innerHTML = `<img src="${userData.picture}" alt="Profile" class="w-8 h-8 rounded-full object-cover">`;
+  }
+
+  showToast(
+    `✅ Berhasil login dengan ${provider}! Selamat datang, ${userData.name}`,
+    "success",
+  );
+  buildSidebarMenu();
+  switchPage("dashboard");
+  switchPage("dashboard");
+}
+
+// ==================== ADMIN DASHBOARD ENHANCED ====================
+function renderAdminDashboardEnhanced(records, currentUser) {
+  // Hitung statistik
+  const totalSiswa = [...new Set(records.map((r) => r.Nama))].length;
+  const totalAkademik = records.filter((r) => r.Kategori === "Akademik").length;
+  const totalKehadiran = records.filter(
+    (r) => r.Kategori === "Kehadiran",
+  ).length;
+  const totalPelanggaran = records.filter(
+    (r) => r.Kategori === "Pelanggaran",
+  ).length;
+  const totalRecords = records.length;
+
+  // Hitung rata-rata nilai
+  let totalNilai = 0;
+  let nilaiCount = 0;
+  records.forEach((r) => {
+    if (r.Kategori === "Akademik") {
+      const match = r.Detail.match(/:?\s*(\d+)/);
+      if (match) {
+        totalNilai += parseInt(match[1]);
+        nilaiCount++;
+      }
+    }
+  });
+  const rataNilai = nilaiCount > 0 ? (totalNilai / nilaiCount).toFixed(1) : "0";
+
+  // Data untuk chart (simulasi)
+  const hariIni = new Date().toISOString().split("T")[0];
+  const todayRecords = records.filter((r) => r.Tanggal === hariIni).length;
+
+  return `
+    <div class="dashboard-admin-enhanced">
+      <!-- Welcome Banner -->
+      <div class="welcome-banner-enhanced">
+        <div>
+          <h2>Selamat datang, ${currentUser.name.split(" ")[0]}</h2>
+          <p>${new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</p>
+        </div>
+        <div class="welcome-stats-mini">
+          <div class="welcome-stat-item">
+            <span class="welcome-stat-number">${totalRecords}</span>
+            <span class="welcome-stat-label">Total Data</span>
+          </div>
+          <div class="welcome-stat-item">
+            <span class="welcome-stat-number">${totalSiswa}</span>
+            <span class="welcome-stat-label">Siswa</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid - 6 Cards dengan Navigasi -->
+      <div class="stats-grid-enhanced">
+        <div class="stat-card-enhanced" onclick="switchPage('siswa')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="users" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${totalSiswa}</div>
+          <div class="stat-label-enhanced">Total Siswa</div>
+          <div class="stat-sub-enhanced">Terdaftar</div>
+        </div>
+        <div class="stat-card-enhanced" onclick="switchPage('akademik')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="book-open" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${totalAkademik}</div>
+          <div class="stat-label-enhanced">Akademik</div>
+          <div class="stat-sub-enhanced">Tercatat</div>
+        </div>
+        <div class="stat-card-enhanced" onclick="switchPage('kehadiran')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="user-check" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${totalKehadiran}</div>
+          <div class="stat-label-enhanced">Presensi</div>
+          <div class="stat-sub-enhanced">Total</div>
+        </div>
+        <div class="stat-card-enhanced" onclick="switchPage('pelanggaran')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="shield-alert" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${totalPelanggaran}</div>
+          <div class="stat-label-enhanced">Pelanggaran</div>
+          <div class="stat-sub-enhanced">Total</div>
+        </div>
+        <div class="stat-card-enhanced" onclick="switchPage('analitik')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="bar-chart-2" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${rataNilai}</div>
+          <div class="stat-label-enhanced">Rata-rata Nilai</div>
+          <div class="stat-sub-enhanced">Keseluruhan</div>
+        </div>
+        <div class="stat-card-enhanced" onclick="switchPage('notifikasi')" style="cursor: pointer;">
+          <div class="stat-icon-enhanced"><i data-lucide="bell" class="w-6 h-6"></i></div>
+          <div class="stat-value-enhanced">${todayRecords}</div>
+          <div class="stat-label-enhanced">Aktivitas Hari Ini</div>
+          <div class="stat-sub-enhanced">Terbaru</div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="dashboard-main-grid">
+        <!-- Recent Activities -->
+        <div class="recent-activities-enhanced">
+          <div class="section-header">
+            <h3><i data-lucide="clock" class="w-5 h-5"></i> Aktivitas Terbaru</h3>
+            <span class="section-badge">${records.length} Total</span>
+          </div>
+          <div class="activity-list-enhanced">
+            ${
+              records.length === 0
+                ? `
+              <div class="empty-state">
+                <i data-lucide="inbox" class="w-12 h-12"></i>
+                <p>Belum ada aktivitas</p>
+              </div>
+            `
+                : records
+                    .slice(-5)
+                    .reverse()
+                    .map(
+                      (r, i) => `
+              <div class="activity-item-enhanced" style="animation-delay: ${i * 0.1}s">
+                <div class="activity-avatar" style="background: ${r.Kategori === "Akademik" ? "#4f46e5" : r.Kategori === "Kehadiran" ? "#7c3aed" : "#a78bfa"}">
+                  ${r.Nama.charAt(0).toUpperCase()}
+                </div>
+                <div class="activity-info">
+                  <div class="activity-name">${r.Nama}</div>
+                  <div class="activity-detail">${r.Detail}</div>
+                  <div class="activity-meta">
+                    <span class="activity-badge ${r.Kategori.toLowerCase()}">${r.Kategori}</span>
+                    <span class="activity-date">${r.Tanggal}</span>
+                  </div>
+                </div>
+              </div>
+            `,
+                    )
+                    .join("")
+            }
+          </div>
+        </div>
+
+        <!-- Dashboard Sidebar -->
+        <div class="dashboard-sidebar">
+          <!-- Ringkasan Cepat -->
+          <div class="quick-summary-enhanced">
+            <h3><i data-lucide="clipboard-list" class="w-5 h-5"></i> Ringkasan Cepat</h3>
+            <div class="summary-item">
+              <span class="summary-label">Total Data</span>
+              <span class="summary-value">${totalRecords}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Siswa Terdaftar</span>
+              <span class="summary-value">${totalSiswa}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Rata-rata Nilai</span>
+              <span class="summary-value">${rataNilai}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Pelanggaran</span>
+              <span class="summary-value">${totalPelanggaran}</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-today">
+              <span class="today-label"><i data-lucide="calendar" class="w-4 h-4"></i> Hari Ini</span>
+              <span class="today-value">${todayRecords} Aktivitas</span>
+            </div>
+          </div>
+
+          <!-- Distribusi Kategori -->
+          <div class="category-distribution">
+            <h3><i data-lucide="pie-chart" class="w-5 h-5"></i> Distribusi Kategori</h3>
+            <div class="category-bar" onclick="switchPage('akademik')" style="cursor: pointer;">
+              <div class="category-bar-label">
+                <span><i data-lucide="book-open" class="w-4 h-4"></i> Akademik</span>
+                <span>${totalAkademik}</span>
+              </div>
+              <div class="category-bar-track">
+                <div class="category-bar-fill akademik" style="width: ${totalRecords > 0 ? (totalAkademik / totalRecords) * 100 : 0}%"></div>
+              </div>
+            </div>
+            <div class="category-bar" onclick="switchPage('kehadiran')" style="cursor: pointer;">
+              <div class="category-bar-label">
+                <span><i data-lucide="user-check" class="w-4 h-4"></i> Kehadiran</span>
+                <span>${totalKehadiran}</span>
+              </div>
+              <div class="category-bar-track">
+                <div class="category-bar-fill kehadiran" style="width: ${totalRecords > 0 ? (totalKehadiran / totalRecords) * 100 : 0}%"></div>
+              </div>
+            </div>
+            <div class="category-bar" onclick="switchPage('pelanggaran')" style="cursor: pointer;">
+              <div class="category-bar-label">
+                <span><i data-lucide="shield-alert" class="w-4 h-4"></i> Pelanggaran</span>
+                <span>${totalPelanggaran}</span>
+              </div>
+              <div class="category-bar-track">
+                <div class="category-bar-fill pelanggaran" style="width: ${totalRecords > 0 ? (totalPelanggaran / totalRecords) * 100 : 0}%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
