@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id" class="h-full scroll-smooth overflow-x-hidden">
+<html lang="id" class="h-full scroll-smooth bg-slate-50 dark:bg-slate-950">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer"></script>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
@@ -18,11 +19,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body
-    class="antialiased text-slate-800 dark:text-indigo-100 transition-colors duration-300 overflow-y-auto overflow-x-hidden"
+    class="antialiased text-slate-800 dark:text-indigo-100 transition-colors duration-300 overflow-y-auto overflow-x-hidden min-h-screen flex flex-col"
   >
     <div
       id="app"
-      class="min-h-screen w-full bg-slate-50 dark:bg-[#060415] flex flex-col relative transition-colors duration-300 overflow-x-hidden"
+      class="flex-grow flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950"
     >
       <!-- Background Orbs -->
       <div
@@ -825,13 +826,23 @@
         </section>
 
         <!-- ==================== FOOTER ==================== -->
-        <footer class="footer-mini w-full">
-          <div class="footer-mini-content max-w-7xl mx-auto px-6 md:px-12">
-            <div class="footer-left">
-              <span class="footer-dot"></span>
+        <footer
+          class="footer-mini w-full mt-auto bg-slate-900 border-t border-slate-800/50 py-6"
+        >
+          <div
+            class="footer-mini-content max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center text-sm text-slate-400"
+          >
+            <div
+              class="footer-left flex items-center gap-2 font-medium text-slate-300"
+            >
+              <span
+                class="footer-dot w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+              ></span>
               <span>Parent Alert</span>
             </div>
-            <div class="footer-right">© 2026 Parent Alert • PTI 2024</div>
+            <div class="footer-right text-xs md:text-sm text-slate-500">
+              © 2026 Parent Alert • PTI 2024
+            </div>
           </div>
         </footer>
       </div>
@@ -842,6 +853,8 @@
         class="fixed inset-0 z-50 min-h-screen bg-gradient-to-tr from-[#1a1635] via-[#241d4f] to-[#120e24] flex items-center justify-center p-4 sm:p-6 md:p-10 font-sans overflow-y-auto"
         style="display: none"
       >
+      <div class="login-orb-small"></div>
+      <div class="login-orb-small"></div>
         <div
           class="login-bubble opacity-20 blur-xl bg-purple-600 rounded-full absolute mix-blend-screen filter"
           style="
@@ -1209,37 +1222,7 @@
               </form>
 
               <div id="socialAuthGroup" class="mt-6 relative z-10">
-                <div class="relative flex items-center justify-center mb-4">
-                  <div class="w-full border-t border-white/5"></div>
-                  <span
-                    class="absolute bg-[#161233] px-3 text-[10px] text-gray-500 font-bold tracking-widest uppercase"
-                    >Atau Lanjutkan Dengan</span
-                  >
-                </div>
-                <div class="grid grid-cols-3 gap-3">
-                  <button
-                    onclick="socialLogin('Behance')"
-                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
-                  >
-                    <i data-lucide="box" class="w-4 h-4 text-gray-400"></i
-                    ><span class="hidden sm:inline">Behance</span>
-                  </button>
-                  <button
-                    onclick="socialLogin('Google')"
-                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
-                  >
-                    <i data-lucide="chrome" class="w-4 h-4 text-red-400"></i
-                    ><span class="hidden sm:inline">Google</span>
-                  </button>
-                  <button
-                    onclick="socialLogin('Facebook')"
-                    class="flex items-center justify-center py-2.5 px-3 bg-[#1e1942]/40 border border-white/5 rounded-xl hover:bg-white/5 hover:border-white/10 transition-all text-xs font-bold text-gray-300 gap-2"
-                  >
-                    <i data-lucide="facebook" class="w-4 h-4 text-blue-400"></i
-                    ><span class="hidden sm:inline">Facebook</span>
-                  </button>
-                </div>
-              </div>
+</div>
 
               <div class="text-center mt-6 relative z-10">
                 <p
